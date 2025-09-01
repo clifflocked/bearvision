@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Video Annotation</title>
+        <style>
+            canvas {
+                border: 1px solid black
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="annotation" width="640" height="360"></canvas>
+
+        <br>
+        <input type="checkbox" id="goodframe">
+        <label for="goodframe">This frame contains usable data</label>
+
+        <br><br>
+
+        <label for="teams">Each team in the match (no spaces, comma delimited)</label><br>
+        <input type="text" id="teams">
+
+        <input type="submit" value="Next frame" onclick="nextframe()">
+
+
+        <script src="/annotation.js"></script>
+    </body>
+</html>
