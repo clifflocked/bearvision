@@ -4,11 +4,21 @@ import cv2, json, os, sys
 
 try:
     video = os.environ["VIDEO"]
-    csv = os.environ["ANNOTATIONS"]
 except:
-    print("No video specified. Using defaults. (To set a video, set the VIDEO and ANNOTATIONS environment variables)")
-    video = "../samples/sample.mp4"
-    csv = "../samples/sample.csv"
+    print("No video specified. Using default")
+    video = "./samples/sample.mp4"
+
+try:
+    csv = os.environ["CSV"]
+except:
+    print("No CSV specified. Using default.")
+    csv = "./samples/sample.csv"
+
+open(csv, 'w').close()
+
+with open(csv, "w") as f:
+    f.write("{[")
+
 
 video = cv2.VideoCapture(video)
 currentframe = 113
@@ -43,5 +53,8 @@ def favicom():
 def data():
     data = json.loads(request.data)
     f = open(csv, "a")
-    f.write(f"{data['framenum']},{data['goodframe']},[{data['teams']}],{data['dot']['x']},{data['dot']['y']}\n")
+    f.write(json.dumps(data, sort_keys=True,indent=4))
     return "0"
+
+if __name__ == "__main__":
+    app.run()

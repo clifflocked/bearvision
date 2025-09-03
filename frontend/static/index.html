@@ -4,12 +4,21 @@
         <title>Video Annotation</title>
         <style>
             canvas {
-                border: 1px solid black
+                border: 1px solid black;
+            }
+
+            .annotator {
+                margin: auto;
+                width: 962px; /* 962 because 960 (width of video frame) + 2 (width of boarder * s)*/
+                border: 3px solid red;
+                padding: 10px
             }
         </style>
     </head>
     <body>
-        <canvas id="annotation" width="640" height="360"></canvas>
+        <div class="annotator">
+
+        <canvas id="annotation" width="960" height="540"></canvas>
 
         <br>
         <input type="checkbox" id="goodframe">
@@ -20,7 +29,15 @@
         <label for="teams">Each team in the match (no spaces, comma delimited)</label><br>
         <input type="text" id="teams">
 
+        <br><br>
+        
+        <label for="score1">Scores (Blue:Red)</label><br>
+        <input type="bluescore" id="bluescore" size="1"><input type="redscore" id="redscore" size="1">
+        
+        <br><br>
+
         <input type="submit" value="Next frame" onclick="nextframe()">
+        </div>
 
 
         <script src="/annotation.js"></script>
