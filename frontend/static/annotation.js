@@ -26,7 +26,6 @@ function Dot(i) {
 let dots = [];
 for (var i = 0; i < 6; i++) {
     dots.push(new Dot(i));
-    console.log(dots[i]);
 }
 
 let dragging = false;
@@ -45,7 +44,14 @@ function draw() {
 
 function nextframe() {
     const goodframe = document.getElementById("goodframe").checked;
-    const teams = document.getElementById("teams").value;
+    let teams = [];
+
+    for (var i = 1; i < 7; i++) {
+        teams.push([
+            document.getElementById(`team${i}-good`).checked,
+            document.getElementById(`team${i}-num`).value
+        ])
+    }
 
     let data = {
         goodframe: `${goodframe}`,
@@ -57,8 +63,6 @@ function nextframe() {
     for (var i = 0; i < dots.length; i++) {
         data.dots.push({ x: dots[i].x, y: dots[i].y });
     }
-
-    console.log(data);
 
     fetch("/data", {
         method: "POST",
@@ -79,8 +83,6 @@ function nextframe() {
     fetch('/framenum').then(resp => resp.json()).then(data => {
         framenum = data;
     });
-
-    console.log(framenum);
 
     draw();
 }

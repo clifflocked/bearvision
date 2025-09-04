@@ -12,12 +12,12 @@ try:
     csv = os.environ["CSV"]
 except:
     print("No CSV specified. Using default.")
-    csv = "./samples/sample.csv"
+    csv = "./samples/sample.json"
 
 open(csv, 'w').close()
 
 with open(csv, "w") as f:
-    f.write("{[")
+    f.write("{[\n")
 
 
 video = cv2.VideoCapture(video)
@@ -28,7 +28,7 @@ app = Flask(__name__, static_url_path='', static_folder='static', template_folde
 @app.route("/frame", methods=['GET'])
 def frame():
     global currentframe
-    currentframe += 1
+    currentframe += 100
     video.set(cv2.CAP_PROP_POS_FRAMES, currentframe)
     success, newframe = video.read()
     if not success:
@@ -57,4 +57,8 @@ def data():
     return "0"
 
 if __name__ == "__main__":
-    app.run()
+    try:
+        app.run()
+    except:
+        with open(csv, "w") as f:
+            f.write("\n]}")
