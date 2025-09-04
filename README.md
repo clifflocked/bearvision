@@ -7,6 +7,8 @@ $ mkdir .venv
 $ python3 -m venv .venv
 $ source .venv/bin/activate
 $ pip install Flask opencv-python
+$ mkdir samples/
+$ touch samples/sample.json
 ```
 
 ## Run annotator
