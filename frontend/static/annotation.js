@@ -26,9 +26,9 @@ function Dot(i) {
 }
 
 let dots = [];
-for (var i = 0; i < 6; i++) {
+/*for (var i = 0; i < 6; i++) {
   dots.push(new Dot(i));
-}
+}*/
 
 let dragging = false;
 
@@ -45,26 +45,25 @@ function draw() {
 }
 
 function nextframe() {
-  const goodframe = document.getElementById("goodframe").checked;
-  let teams = [];
+  const bluescore = document.getElementById("bluescore").value;
+  const redscore = document.getElementById("redscore").value;
+  /*let teams = [];
 
   for (var i = 1; i < 7; i++) {
     teams.push([
       document.getElementById(`team${i}-good`).checked,
       document.getElementById(`team${i}-num`).value,
     ]);
-  }
+  }*/
 
   let data = {
-    goodframe: `${goodframe}`,
-    teams: `${teams}`,
-    dots: [],
-    framenum: `${framenum}`,
+    bluescore: `${bluescore}`,
+    redscore: `${redscore}`,
   };
 
-  for (var i = 0; i < dots.length; i++) {
+  /*for (var i = 0; i < dots.length; i++) {
     data.dots.push({ x: dots[i].x, y: dots[i].y });
-  }
+  }*/
 
   fetch("/data", {
     method: "POST",
@@ -90,7 +89,7 @@ function nextframe() {
 
   draw();
 }
-
+/*
 function mouseOnDot(dotx, doty, dotr, x, y) {
   let dx = x - dotx;
   let dy = y - doty;
@@ -125,4 +124,4 @@ canvas.addEventListener("mousemove", (e) => {
 
 canvas.addEventListener("mouseup", () => {
   dragging = false;
-});
+  */

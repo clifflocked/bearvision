@@ -9,7 +9,7 @@
 
             .annotator {
                 margin: auto;
-                width: 962px; /* 962 because 960 (width of video frame) + 2 (width of canvas border * 2)*/
+                width: 122px; /* 122 because 120 (width of video frame) + 2 (width of canvas border * 2)*/
                 border: 3px solid red;
                 padding: 10px
             }
@@ -18,26 +18,13 @@
     <body>
         <div class="annotator">
 
-        <canvas id="annotation" width="960" height="540"></canvas>
-
-        <br>
-        <input type="checkbox" id="goodframe">
-        <label for="goodframe">This frame contains usable data</label>
-
-        <br><br>
-
-        <label for="teams">Good location, team #</label><br>
-        <input type="checkbox" id="team1-good"><input type="text" id="team1-num" size="3">
-        <input type="checkbox" id="team2-good"><input type="text" id="team2-num" size="3">
-        <input type="checkbox" id="team3-good"><input type="text" id="team3-num" size="3">
-        <input type="checkbox" id="team4-good"><input type="text" id="team4-num" size="3">
-        <input type="checkbox" id="team5-good"><input type="text" id="team5-num" size="3">
-        <input type="checkbox" id="team6-good"><input type="text" id="team6-num" size="3">
+        <canvas id="annotation" width="120" height="20"></canvas>
 
         <br><br>
         
         <label for="score1">Scores (Blue:Red)</label><br>
-        <input type="text" id="bluescore" size="1"><input type="text" id="redscore" size="1">
+        <input type="text" id="bluescore" size="2" onfocus="this.value=''">
+        <input type="text" id="redscore" size="2" onfocus="this.value=''">
         
         <br><br>
 
