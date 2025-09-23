@@ -29,5 +29,5 @@ Because YouTube is constantly changing their API, `yt-dlp` may fail if using a p
 ## Run annotator
 Make sure to set the `VIDEO` environment variable, otherwise it will default to `./samples/sample.mp4`
 ```sh
-VIDEO=yourvideo python3 frontend/annotation.py
+VIDEO=yourvideo python3 annotation/annotation.py
 ```
