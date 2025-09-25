@@ -28,8 +28,13 @@ class Session():
 
 
 videos = init()
-title = st.empty()
-disp = st.empty()
+
+col1, col2 = st.columns([1, 1])
+with col2:
+    user = st.text_input(" ", placeholder="Your name...", label_visibility="collapsed")
+
+with col1:
+    disp = st.empty()
 
 if "session" not in ss:
     ss.session = Session()
@@ -40,26 +45,31 @@ if not ss.session.has_image:
 
 image = ss.session.frame
 
-title.write(f"Frame number: {ss.session.framenum}")
-disp.image(image, channels="BGR")
+disp.image(image, channels="BGR", width="stretch")
 
-bluescore = int(st.number_input("Blue", value=None))
-redscore = int(st.number_input("Red", value=None))
+blue, red = st.columns(2)
+with blue:
+    bluescore = st.number_input("Blue", min_value=0, max_value=1000, step=1, format="%d")
+
+with red:
+    redscore = st.number_input("Red", min_value=0, max_value=1000, step=1, format="%d")
+
 checksum = b2checksum(f"{time()} {image}")
 
-if st.button("Next frame", type="primary"):
-    with open(f"./samples/scores/data/{checksum}.jpg", "a") as f:
-        f.write(f"{{\"bluescore\":\"{bluescore}\",\"redscore\":\"{redscore}\"}}")
+btcol1, btcol2, _ = st.columns([1, 1, 4])
+
+if btcol1.button("Next frame", type="primary", width="stretch"):
+    with open(f"./samples/scores/data/{checksum}.json", "a") as f:
+        f.write(f"{{\"bluescore\":\"{int(bluescore)}\",\"redscore\":\"{int(redscore)}\"}}")
 
     cv2.imwrite(f"./samples/scores/images/{checksum}.jpg", image)
+    ss.leaderboard[user] += 1
+
     ss.session.new_frame()
     image = ss.session.frame
-    title.write(f"Frame number: {ss.session.framenum}")
-    disp.image(image, channels="BGR")
+    disp.image(image, channels="BGR", width="stretch")
 
-if st.button("Skip frame", type="tertiary"):
+if btcol2.button("Skip frame", type="tertiary", width="stretch"):
     ss.session.new_frame()
     image = ss.session.frame
-    title.write(f"Frame number: {ss.session.framenum}")
-    disp.image(image, channels="BGR")
-
+    disp.image(image, channels="BGR", width="stretch")
