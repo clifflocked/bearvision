@@ -43,8 +43,8 @@ image = ss.session.frame
 title.write(f"Frame number: {ss.session.framenum}")
 disp.image(image, channels="BGR")
 
-bluescore = st.number_input("Blue", value=None)
-redscore = st.number_input("Red", value=None)
+bluescore = int(st.number_input("Blue", value=None))
+redscore = int(st.number_input("Red", value=None))
 checksum = b2checksum(f"{time()} {image}")
 
 if st.button("Next frame", type="primary"):
