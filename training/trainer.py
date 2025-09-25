@@ -36,7 +36,6 @@ class ScoreDataset(Dataset):
         with open(json_path, "r") as f:
             data = json.load(f)
 
-        print(f"json: {data}, file: {img_path}")
         blue_score = int(data["bluescore"])
         red_score = int(data["redscore"])
 
@@ -70,6 +69,8 @@ class ScoreNet(nn.Module):
 
 if __name__ == "__main__":
     transform = transforms.Compose([
+        transforms.ColorJitter(brightness=(0.75,1.25), contrast=(0.90, 1.10)),
+        transforms.RandomAffine(2, scale=(0.95, 1.1)),
         transforms.ToTensor(),
     ])
 
