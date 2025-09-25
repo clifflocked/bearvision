@@ -20,7 +20,7 @@ $ mkdir -p samples/scores/{data,images}
 ## Getting training data
 It is recommended to use `yt-dlp` to download videos. Some examples are provided in `vids.txt`:
 ```sh
-$ yt-dlp -a vids.txt
+$ yt-dlp -tmp4 -a vids.txt -o "./samples/%(title)s.%(ext)s"
 ```
 Because YouTube is constantly changing their API, `yt-dlp` may fail if using a packaged version. Get the nightly version
  [here](https://github.com/yt-dlp/yt-dlp?tab=readme-ov-file#installation).
@@ -28,5 +28,10 @@ Because YouTube is constantly changing their API, `yt-dlp` may fail if using a p
 
 ## Run annotator
 ```sh
-streamlit run annotation/scores.py
+$ streamlit run annotation/streamlit_app.py
+```
+
+## Run trainer
+```sh
+$ python3 training/trainer.py
 ```
