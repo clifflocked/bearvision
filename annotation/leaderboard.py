@@ -1,7 +1,7 @@
 import streamlit as st
 from streamlit import session_state as ss
 
-st.write("# Annotation Leaderboard")
+st.write("## Leaderboard")
 top = sorted(ss.leaderboard.items(), key=lambda x: x[1], reverse=True)
 lb_names = ""
 lb_scores = ""

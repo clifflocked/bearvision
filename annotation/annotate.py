@@ -18,7 +18,8 @@ class Session():
 
     def new_frame(self):
         # Pick random video, get random frame.
-        video = cv2.VideoCapture(videos[randint(0, len(videos) - 1)])
+        self.video = videos[randint(0, len(videos) - 1)]
+        video = cv2.VideoCapture(self.video)
         frames = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
         fps = int(video.get(cv2.CAP_PROP_FPS))
         self.framenum = randint(5 * fps, frames - 30 * fps)
@@ -56,7 +57,7 @@ with red:
 
 checksum = b2checksum(f"{time()} {image}")
 
-btcol1, btcol2, _ = st.columns([1, 1, 4])
+btcol1, btcol2, debug, btcol3 = st.columns([1, 1, 4, 1])
 
 if btcol1.button("Next frame", type="primary", width="stretch"):
     with open(f"./samples/scores/data/{checksum}.json", "a") as f:
@@ -73,3 +74,9 @@ if btcol2.button("Skip frame", type="tertiary", width="stretch"):
     ss.session.new_frame()
     image = ss.session.frame
     disp.image(image, channels="BGR", width="stretch")
+
+if btcol3.button("Debug info", type="tertiary", width="stretch"):
+    with debug:
+        st.write(f"""Video: `{ss.session.video}`\n
+Frame: `{ss.session.framenum}`\n
+Checksum: `{checksum}`""")
