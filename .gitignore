@@ -1,4 +1,3 @@
 .venv/
 .vscode/
 samples/
-frontend/__pycache__
