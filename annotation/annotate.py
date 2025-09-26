@@ -50,14 +50,14 @@ disp.image(image, channels="BGR", width="stretch")
 
 blue, red = st.columns(2)
 with blue:
-    bluescore = st.number_input("Blue", min_value=0, max_value=1000, step=1, format="%d")
+    bluescore = st.number_input("Blue", min_value=0, max_value=1000, step=1, format="%d", width=150)
 
 with red:
-    redscore = st.number_input("Red", min_value=0, max_value=1000, step=1, format="%d")
+    redscore = st.number_input("Red", min_value=0, max_value=1000, step=1, format="%d", width=150)
 
 checksum = b2checksum(f"{time()} {image}")
 
-btcol1, btcol2, debug, btcol3 = st.columns([1, 1, 4, 1])
+btcol1, btcol2, debug, btcol3 = st.columns([1, 1, 3, 1])
 
 if btcol1.button("Next frame", type="primary", width="stretch"):
     with open(f"./samples/scores/data/{checksum}.json", "a") as f:
