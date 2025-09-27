@@ -5,7 +5,6 @@ import streamlit as st
 from streamlit import session_state as ss
 from b2sum import b2checksum
 from time import time, sleep
-#from mypyc.ir.ops import Return       #TODO for some reason when this in the code it crashes sorry if this is important :/
 
 @st.cache_resource
 def init(path="./samples/"):
@@ -56,9 +55,10 @@ with st.form("ColorNumberInputs", clear_on_submit=True):  # Creates a form which
     with red:
         redscore = st.number_input("Red", min_value=0, max_value=1000, value=None, step=1, format="%d", width=150)
 
-    checksum = b2checksum(f"{time()} {image}")  # Honestly idk this was u segen
-    submitButton, skipButton = st.columns([1, 1])  # List of columns for the 2 buttons under the inputs
-    submitted = submitButton.form_submit_button("Next frame", type="primary", key = "submitButton", width="stretch") #creates skip button
+    checksum = b2checksum(f"{bluescore} {redscore}")  # Honestly idk this was u segen
+    submit_button, skip_button = st.columns([1, 1])  # List of columns for the 2 buttons under the inputs
+
+    submitted = submit_button.form_submit_button("Next frame", type="primary", key = "submitButton", width="stretch") #creates skip button
     if submitted:  # Runs when skip button pressed
         if bluescore == None or redscore == None:  # Make sure the user didnt leave the boxes blank
             st.write("ERM WHAT THE FREAK U GOTTA ANSWER THE QUESTIONS")
@@ -72,16 +72,16 @@ with st.form("ColorNumberInputs", clear_on_submit=True):  # Creates a form which
             ss.session.new_frame()
             image = ss.session.frame
             disp.image(image, channels="BGR", width="stretch")
-    skipped = skipButton.form_submit_button("SkipFrame", type="tertiary", key="skipButton", width="stretch") #runs skip button
+    skipped = skip_button.form_submit_button("SkipFrame", type="tertiary", key="skipButton", width="stretch") #runs skip button
     if skipped:  # Function run when skip button pressed
         ss.session.new_frame()
         image = ss.session.frame
         disp.image(image, channels="BGR", width="stretch")
 
-debug, btcol3 = st.columns([3, 1])  # New row for the debug things
+debug_text, debug_button = st.columns([3, 1])  # New row for the debug things
 
-if btcol3.button("Debug info", type="tertiary", width="stretch"):
-    with debug:
+if debug_button.button("Debug info", type="tertiary", width="stretch"):
+    with debug_text:
         st.write(f"""Video: `{ss.session.video}`\n
 Frame: `{ss.session.framenum}`\n
 Checksum: `{checksum}`""")
