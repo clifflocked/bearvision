@@ -5,6 +5,7 @@ import streamlit as st
 from streamlit import session_state as ss
 from b2sum import b2checksum
 from time import time, sleep
+#from mypyc.ir.ops import Return       #TODO for some reason when this in the code it crashes sorry if this is important :/
 
 @st.cache_resource
 def init(path="./samples/"):
@@ -48,32 +49,36 @@ image = ss.session.frame
 
 disp.image(image, channels="BGR", width="stretch")
 
-blue, red = st.columns(2)
-with blue:
-    bluescore = st.number_input("Blue", min_value=0, max_value=1000, step=1, format="%d", width=150)
+with st.form("ColorNumberInputs", clear_on_submit=True):  # Creates a form which holds both input spaces, as well as the buttons
+    blue, red = st.columns(2)  # list of columns for the 2 input spaces
+    with blue:
+        bluescore = st.number_input("Blue", min_value=0, max_value=1000, value=None, step=1, format="%d", width=150)
+    with red:
+        redscore = st.number_input("Red", min_value=0, max_value=1000, value=None, step=1, format="%d", width=150)
 
-with red:
-    redscore = st.number_input("Red", min_value=0, max_value=1000, step=1, format="%d", width=150)
+    checksum = b2checksum(f"{time()} {image}")  # Honestly idk this was u segen
+    submitButton, skipButton = st.columns([1, 1])  # List of columns for the 2 buttons under the inputs
+    submitted = submitButton.form_submit_button("Next frame", type="primary", key = "submitButton", width="stretch") #creates skip button
+    if submitted:  # Runs when skip button pressed
+        if bluescore == None or redscore == None:  # Make sure the user didnt leave the boxes blank
+            st.write("ERM WHAT THE FREAK U GOTTA ANSWER THE QUESTIONS")
+        else:
+            with open(f"./samples/scores/data/{checksum}.json", "a") as f:
+                f.write(f"{{\"bluescore\":\"{int(bluescore)}\",\"redscore\":\"{int(redscore)}\"}}")
 
-checksum = b2checksum(f"{time()} {image}")
+            cv2.imwrite(f"./samples/scores/images/{checksum}.jpg", image)
+            ss.leaderboard[user] += 1
 
-btcol1, btcol2, debug, btcol3 = st.columns([1, 1, 3, 1])
+            ss.session.new_frame()
+            image = ss.session.frame
+            disp.image(image, channels="BGR", width="stretch")
+    skipped = skipButton.form_submit_button("SkipFrame", type="tertiary", key="skipButton", width="stretch") #runs skip button
+    if skipped:  # Function run when skip button pressed
+        ss.session.new_frame()
+        image = ss.session.frame
+        disp.image(image, channels="BGR", width="stretch")
 
-if btcol1.button("Next frame", type="primary", width="stretch"):
-    with open(f"./samples/scores/data/{checksum}.json", "a") as f:
-        f.write(f"{{\"bluescore\":\"{int(bluescore)}\",\"redscore\":\"{int(redscore)}\"}}")
-
-    cv2.imwrite(f"./samples/scores/images/{checksum}.jpg", image)
-    ss.leaderboard[user] += 1
-
-    ss.session.new_frame()
-    image = ss.session.frame
-    disp.image(image, channels="BGR", width="stretch")
-
-if btcol2.button("Skip frame", type="tertiary", width="stretch"):
-    ss.session.new_frame()
-    image = ss.session.frame
-    disp.image(image, channels="BGR", width="stretch")
+debug, btcol3 = st.columns([3, 1])  # New row for the debug things
 
 if btcol3.button("Debug info", type="tertiary", width="stretch"):
     with debug:
