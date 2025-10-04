@@ -61,7 +61,7 @@ with st.form("ColorNumberInputs", clear_on_submit=True):  # Creates a form which
     submitted = submit_button.form_submit_button("Next frame", type="primary", key = "submitButton", width="stretch") #creates skip button
     if submitted:  # Runs when skip button pressed
         if bluescore == None or redscore == None:  # Make sure the user didnt leave the boxes blank
-            st.write("ERM WHAT THE FREAK U GOTTA ANSWER THE QUESTIONS")
+            st.write("both score boxes must have a value")
         else:
             with open(f"./samples/scores/data/{checksum}.json", "a") as f:
                 f.write(f"{{\"bluescore\":\"{int(bluescore)}\",\"redscore\":\"{int(redscore)}\"}}")
